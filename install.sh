@@ -15,22 +15,22 @@ echo "[INSTALLING DEPENDENCIES]"
 if [ -x /bin/yum ]; then
     yum clean expire-cache
     yum check-update
-    sudo yum -q -y install make automake gcc gcc-c++ bison flex autoconf git python3.9 python3-devel libxml2-devel libxslt-devel gtk3-devel
+    sudo yum -q -y install make automake gcc gcc-c++ bison flex autoconf git python3 python3-devel libxml2-devel libxslt-devel gtk3-devel
 #Installing dependencies for Ubuntu/Mint/Debian
 elif [ -x /usr/bin/apt-get ]; then
     sudo apt-get -qq update
-    #Add deadsnakes PPA for Python3.9 support on newer distros
+    #Add deadsnakes PPA for python3 support on newer distros
     sudo apt-get install software-properties-common -y
     sudo add-apt-repository ppa:deadsnakes/ppa -y
     sudo apt-get -qq update
     sudo apt-get install -y build-essential bison flex autoconf \
                           automake make git libgtk-3-dev\
-                          python3.9 python3.9-venv python3.9-dev
+                          python3 python3-venv python3-dev
 #Installing dependencies for opensuse tumbleweed
 elif [ -x /usr/bin/zypper ]; then
     sudo zypper ref
     sudo zypper in -y make automake gcc gcc-c++ bison flex autoconf
-    sudo zypper in -y python python-xml python3.9 python3-pip
+    sudo zypper in -y python python-xml python3 python3-pip
 # some linux distros also use pkg, so check against the uname
 elif [ -x /usr/sbin/pkg ] && [ $(uname) == "FreeBSD" ]; then
     sudo pkg install -y python autoconf-2.72 automake bison \
@@ -40,7 +40,7 @@ elif [ -x /usr/sbin/pkg ] && [ $(uname) == "FreeBSD" ]; then
 elif [ -x /usr/bin/pacman ]; then
     sudo pacman -Syu --noconfirm
     sudo pacman -S --noconfirm base-devel yay gtk3 python-pip
-# Installing python3.9 from AUR
+# Installing python3 from AUR
     yay -S --noconfirm python39
 else
     echo "Unsupported linux distro."
@@ -50,11 +50,11 @@ fi
 #Installing Python dependencies
 if [ $(uname) == "FreeBSD" ]; then
     # use system packages on FreeBSD
-    python3.9 -m venv --system-site-packages "$VENV_DIR"
+    python3 -m venv --system-site-packages "$VENV_DIR"
     "$VENV_DIR/bin/python" -m pip install --upgrade pip
     "$VENV_DIR/bin/python" -m pip install zeroconf pypubsub pyro5 attrdict3
 else
-    python3.9 -m venv "$VENV_DIR"
+    python3 -m venv "$VENV_DIR"
     "$VENV_DIR/bin/python" -m pip install --upgrade pip
     "$VENV_DIR/bin/python" -m pip install wheel jinja2 lxml==4.6.2 future matplotlib zeroconf pyserial pypubsub pyro5 attrdict3
     "$VENV_DIR/bin/python" -m pip install wxPython==4.2.0
